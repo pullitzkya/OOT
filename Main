@@ -1,0 +1,133 @@
+package OOT;
+
+import static gdi.MakeItSimple.*;
+
+public class Main {
+	
+	public static void main(String[] args) {
+
+		
+			makeMenu();
+		
+
+	}
+
+	public static void makeMenu() {
+	
+		
+		System.out.println("------------------- Menue -------------------");
+		System.out.println("1: Spielerauswahl");
+		System.out.println("2: Spiel beenden");
+			
+		String eingabe = readLine();
+		
+		boolean beende = false;
+		while (!beende){
+			switch (eingabe) {
+			case "1":
+				System.out.println("1. Spieler vs Spieler");
+				System.out.println("2. Spieler vs Computer");
+				System.out.println("3. Computer vs Computer");
+				String eingabe1 = readLine();
+				switch (eingabe1) {
+				case "1":
+					System.out.println("1. Spieler 1 beginnt");
+					System.out.println("2. Spieler 2 beginnt");
+					String eingabe2 = readLine();
+					switch (eingabe2) {
+					case "1":
+						spielerEinsStart();
+						break;
+					case "2":
+						spielerZweiStart();
+						break;
+					default:
+						break;
+					}
+					starteSpiel();
+					break;
+				case "2":
+					System.out.println("1. Spieler beginnt");
+					System.out.println("2. Computer beginnt");
+					String eingabe3 = readLine();
+					switch(eingabe3){
+					case "1":
+						System.out.println("1. Schwierigkeit : Einfach");
+						System.out.println("2. Schwierigkeit : Normal");
+						System.out.println("3. Schwierigkeit : Schwer");
+						String eingabe4 = readLine();
+						switch(eingabe4){
+						case "1":
+							System.out.println("EASYYYYYYYYYYYYYYYYY");
+							starteSpiel();
+							break;
+						case "2":
+							System.out.println("Normallllll");
+							starteSpiel();
+							break;
+						case "3": 
+							System.out.println("UFPASSSE");
+							starteSpiel();
+							break;
+						}
+					case "2":
+						System.out.println("1. Schwierigkeit : Einfach");
+						System.out.println("2. Schwierigkeit : Normal");
+						System.out.println("3. Schwierigkeit : Schwer");
+						String eingabe5 = readLine();
+						switch(eingabe5){
+						case "1":
+							System.out.println("EASYYYYYYYYYYYYYYYYY");
+							starteSpiel();
+							break;
+						case "2":
+							System.out.println("Normallllll");
+							starteSpiel();
+							break;
+						case "3": 
+							System.out.println("UFPASSSE");
+							starteSpiel();
+							break;
+						default:
+							break;
+						}
+					}
+					break;
+				default:
+					break;
+				
+				}
+			case "2":
+				beende = true;
+				break;
+			default:
+				break;
+			}
+		
+		if (!eingabe.equals("2"))
+			
+		
+			readLine();
+		System.out.println("_____________________________");
+		}
+		
+	}
+	
+	
+	
+	public static String starteSpiel() {
+		System.out.println("FUNZT!!!!");
+		return null;
+	}
+	
+	public static String spielerEinsStart() {
+		System.out.println("Spieler 1 hat den ersten Zug");
+		return null;
+	}
+	
+	public static String spielerZweiStart() {
+		System.out.println("Spieler 2 hat den ersten Zug");
+		return null;
+	}
+
+}
