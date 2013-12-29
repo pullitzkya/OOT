@@ -1,50 +1,36 @@
 package OOT;
 
+import OOT.Feld.FeldStatus;
+import java.util.LinkedList;
+
 public class Game {
 	
+	public LinkedList<Spieler> spieler = new LinkedList<Spieler>();
+	
 	public static int parseInput(String input) {
-		int ebene = Character.getNumericValue(input.charAt(1));
 		int zeile = Character.getNumericValue(input.charAt(2));
 		int spalte = Character.getNumericValue(input.charAt(3));
-
-		return (ebene*10)+spalte;
+		return (zeile*10)+spalte;
 	}
 	
 	public static boolean isValid(String input){
-
-		// Ist exakt 4 Zeichen?
-		if(input.length() == 4){
-
-			// Fängt mit E an?
-			if(!input.startsWith("E")){
-				return false;
-			}
-			
-			// Ebene zwischen 1 und 3?
-			if(Character.getNumericValue(input.charAt(1)) < 0 || Character.getNumericValue(input.charAt(1)) > 3){
-				return false;
-			}
-			
-			// Reihe zwischen 0-9?
-			if(Character.getNumericValue(input.charAt(2)) < 0 || Character.getNumericValue(input.charAt(2)) > 9){
-				return false;
-			}
-
-			// Spalte zwischen 0-9?
-			if(Character.getNumericValue(input.charAt(3)) < 0 || Character.getNumericValue(input.charAt(3)) > 9){
-				return false;
-			}
-			
+		if(input.matches("E[123]\\d\\d")){
 			return true;
-			
+		}else{
+			return false;
 		}
-		
-		return false;
 	}
 	
 	
 	public static void main(String[] args){
-		System.out.println(isValid("E129"));
+		System.out.println(isValid("E322"));
+	}
+	
+	public boolean isRunning(){
+		for(Spieler s : this.spieler){
+			
+		}
+		return true;
 	}
 	
 	
