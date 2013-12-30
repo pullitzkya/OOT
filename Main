@@ -1,6 +1,6 @@
 package OOT;
 
-import static gdi.MakeItSimple.*;
+import java.util.Scanner;
 
 public class Main {
 	
@@ -14,31 +14,34 @@ public class Main {
 
 	public static void makeMenu() {
 	
+		int eingabe;
 		
 		System.out.println("------------------- Menue -------------------");
 		System.out.println("1: Spielerauswahl");
 		System.out.println("2: Spiel beenden");
 			
-		String eingabe = readLine();
+		Scanner scanner = new Scanner(System.in);
+		eingabe = scanner.nextInt();
 		
 		boolean beende = false;
 		while (!beende){
 			switch (eingabe) {
-			case "1":
+			case 1:
 				System.out.println("1. Spieler vs Spieler");
 				System.out.println("2. Spieler vs Computer");
 				System.out.println("3. Computer vs Computer");
-				String eingabe1 = readLine();
-				switch (eingabe1) {
-				case "1":
+				eingabe = scanner.nextInt();
+				switch (eingabe) {
+				
+				case 1:  // 1. Spieler vs Spieler
 					System.out.println("1. Spieler 1 beginnt");
 					System.out.println("2. Spieler 2 beginnt");
-					String eingabe2 = readLine();
-					switch (eingabe2) {
-					case "1":
+					eingabe = scanner.nextInt();
+					switch (eingabe) {
+					case 1:
 						spielerEinsStart();
 						break;
-					case "2":
+					case 2:
 						spielerZweiStart();
 						break;
 					default:
@@ -46,45 +49,48 @@ public class Main {
 					}
 					starteSpiel();
 					break;
-				case "2":
+				case 2: // 2. Spieler vs Computer
 					System.out.println("1. Spieler beginnt");
 					System.out.println("2. Computer beginnt");
-					String eingabe3 = readLine();
-					switch(eingabe3){
-					case "1":
+					eingabe = scanner.nextInt();
+					switch(eingabe){
+					case 1: // Spieler beginnt
 						System.out.println("1. Schwierigkeit : Einfach");
 						System.out.println("2. Schwierigkeit : Normal");
 						System.out.println("3. Schwierigkeit : Schwer");
-						String eingabe4 = readLine();
-						switch(eingabe4){
-						case "1":
+						eingabe = scanner.nextInt();
+						switch(eingabe){
+						case 1: // Einfach
 							System.out.println("EASYYYYYYYYYYYYYYYYY");
 							starteSpiel();
 							break;
-						case "2":
+						case 2: // Normal
 							System.out.println("Normallllll");
 							starteSpiel();
 							break;
-						case "3": 
+						case 3:  // Schwer
 							System.out.println("UFPASSSE");
 							starteSpiel();
 							break;
+						default:
+							break;
 						}
-					case "2":
+					break;
+					case 2: // Computer beginnt
 						System.out.println("1. Schwierigkeit : Einfach");
 						System.out.println("2. Schwierigkeit : Normal");
 						System.out.println("3. Schwierigkeit : Schwer");
-						String eingabe5 = readLine();
-						switch(eingabe5){
-						case "1":
+						eingabe = scanner.nextInt();
+						switch(eingabe){
+						case 1: // Einfach
 							System.out.println("EASYYYYYYYYYYYYYYYYY");
 							starteSpiel();
 							break;
-						case "2":
+						case 2: // Normal
 							System.out.println("Normallllll");
 							starteSpiel();
 							break;
-						case "3": 
+						case 3:  // Schwer
 							System.out.println("UFPASSSE");
 							starteSpiel();
 							break;
@@ -93,21 +99,71 @@ public class Main {
 						}
 					}
 					break;
-				default:
+				case 3: // 3. Computer vs Computer
+					System.out.println("1. Computer 1 beginnt");
+					System.out.println("2. Computer 2 beginnt");
+					eingabe = scanner.nextInt();
+					switch(eingabe) {
+					case 1:  // Computer1 beginnt
+						System.out.println("1. KI Stärke : Einfach ");
+						System.out.println("2. KI Stärke : Normal");
+						System.out.println("3. KI Stärke : Schwer");
+						eingabe = scanner.nextInt();
+						switch(eingabe){
+						case 1: // KI Easy
+							System.out.println("EASYY");
+							starteSpiel();
+							break;
+						case 2: // KI Normal
+							System.out.println("Normal");
+							starteSpiel();
+							break;
+						case 3: // KI Schwer
+							System.out.println("Hardddd");
+							starteSpiel();
+							break;
+						default:
+							break;
+						}
 					break;
+					case 2: // Computer2 beginnt
+						System.out.println("1. KI Stärke : Einfach ");
+						System.out.println("2. KI Stärke : Normal");
+						System.out.println("3. KI Stärke : Schwer");
+						eingabe = scanner.nextInt();
+						switch(eingabe){
+						case 1: // KI Easy
+							System.out.println("EASYY");
+							starteSpiel();
+							break;
+						case 2: // KI Normal
+							System.out.println("Normal");
+							starteSpiel();
+							break;
+						case 3: // KI Schwer
+							System.out.println("Hardddd");
+							starteSpiel();
+							break;
+						default:
+							break;
+						}
+						break;
+					default:
+						break;
+					}
 				
 				}
-			case "2":
+			case 2: // Spiel beenden
 				beende = true;
 				break;
 			default:
 				break;
 			}
 		
-		if (!eingabe.equals("2"))
+		if (eingabe == 2)
 			
 		
-			readLine();
+		System.out.println("Spiel beendet");
 		System.out.println("_____________________________");
 		}
 		
@@ -116,7 +172,7 @@ public class Main {
 	
 	
 	public static String starteSpiel() {
-		System.out.println("FUNZT!!!!");
+		System.out.println("Spiel startet!!!!");
 		return null;
 	}
 	
