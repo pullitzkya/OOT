@@ -21,7 +21,7 @@ public class Brett {
 	/**
 	 * Liefert den Status eines Feldes
 	 * @param fNr	Nummer des Feldes
-	 * @return Felstatus
+	 * @return Feldstatus
 	 */
 	public FeldStatus getFeldStatus(int fNr){
 		return this.felder.get(fNr).getFeldStatus();
@@ -36,11 +36,35 @@ public class Brett {
 		this.felder.get(fNr).setFeldStatus(fStatus);
 	}
 	
+
+	/**
+	 * Nimmt einen Schuss entgegen, überprüft ob es ein Treffer war und versenkt ggf.	
+	 * @param input	Koordinaten
+	 * @return	true=Treffer, false=Kein Treffer
+	 */
+	public boolean takeHit(int fNr){
+		if(this.felder.get(fNr).getFeldStatus() == FeldStatus.schiff){
+			this.felder.get(fNr).setFeldStatus(FeldStatus.wasser);
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	
+	/**
+	 * Liefert alle Felder des Spielbretts
+	 * @return  Felder des Spielbretts
+	 */
+	public LinkedList<Feld> getFelder(){
+		return this.felder;
+	}
+	
+	
 	/**
 	 * Ausgabe von Brett auf Konsole
 	 */
-	public void printBrett(){
-		
+	public void printBrett(){		
 		System.out.println("---------------------");
 		
 		int current = 0;
@@ -53,10 +77,10 @@ public class Brett {
 			if(current%10==0){
 				System.out.print("|\n");
 			}
+	
 		}
 		
-		System.out.println("---------------------");
-		
+		System.out.println("---------------------");		
 	}
 	
 	
