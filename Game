@@ -7,12 +7,11 @@ public class Game {
 	
 	public LinkedList<Spieler> spieler = new LinkedList<Spieler>();
 	
-	public static int parseInput(String input) {
-		int zeile = Character.getNumericValue(input.charAt(2));
-		int spalte = Character.getNumericValue(input.charAt(3));
-		return (zeile*10)+spalte;
-	}
-	
+	/**
+	 * Prüft ob ein Eingabestring valid ist
+	 * @param input	Eingabe
+	 * @return	true/false
+	 */
 	public static boolean isValid(String input){
 		if(input.matches("E[123]\\d\\d")){
 			return true;
@@ -26,11 +25,29 @@ public class Game {
 		System.out.println(isValid("E322"));
 	}
 	
-	public boolean isRunning(){
+	/**
+	 * Überprüft ob das Spiel noch läuft
+	 * @return true/falses
+	 */
+	public boolean isRunning(){		
 		for(Spieler s : this.spieler){
-			
+			for(Brett b : s.getEbenen()){
+				for(Feld f : b.getFelder()){
+					if(f.getFeldStatus() == FeldStatus.schiff){
+						return true;
+					}
+				}
+			}
 		}
-		return true;
+		return false;
+	}
+	
+	/**
+	 * Fügt einen Spieler zum Spiel hinzu
+	 * @param s	Spieler
+	 */
+	public void addSpieler(Spieler s){
+		this.spieler.add(s);
 	}
 	
 	
