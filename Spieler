@@ -2,13 +2,68 @@ package OOT;
 
 import java.util.LinkedList;
 
+import OOT.Feld.FeldStatus;
+
 public class Spieler {
 	
 	private LinkedList<Brett> ebenen = new LinkedList<Brett>();
+	private String name;
 	
-	public Spieler(){
-		// init brett
+	public Spieler(String n){
+		// 3 Bretter erstellen
+		this.ebenen.add(new Brett());
+		this.ebenen.add(new Brett());
+		this.ebenen.add(new Brett());
+		
+		this.name = n;
+	}
+	
+	/**
+	 * Nimmt einen Schuss entgegen, überprüft ob es ein Treffer war und versenkt ggf.	
+	 * @param input	Koordinaten
+	 * @return	true=Treffer, false=Kein Treffer
+	 */
+	public boolean takeHit(String input){		
+		return this.ebenen.get(calcEbene(input)).takeHit(calcFeld(input));
+	}
+	
+	/**
+	 * Parsed FeldNr (0-99) aus dem Eingabestring
+	 * @param input	Eingabe
+	 * @return	FeldNr (0-99)
+	 */
+	public int calcFeld(String input) {
+		int y = Character.getNumericValue(input.charAt(2));
+		int x = Character.getNumericValue(input.charAt(3));
+		return (y*10)+x;
 	}
 
+
+	/**
+	 * Parsed Ebenennummer aus einem Eingabestring (Ebene 0/1/2)
+	 * @param input	Eingabe
+	 * @return	Ebene (0/1/2)
+	 */
+	public int calcEbene(String input) {
+		return (Character.getNumericValue(input.charAt(1)) - 1);
+	}
+	
+	/**
+	 * Liefert Name des Spielers
+	 * @return Name des Spielers
+	 */
+	public String getName(){
+		return this.name;
+	}
+	
+	public void schiffSetzen(String input){
+		this.getEbenen().get(calcEbene(input)).setFeld(calcFeld(input), FeldStatus.schiff);
+	}
+	
+	
+	public LinkedList<Brett> getEbenen(){
+		return this.ebenen;
+	}
+	
 	
 }
