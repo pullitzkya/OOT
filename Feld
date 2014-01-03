@@ -1,5 +1,10 @@
 package OOT;
 
+/**
+ * Darstellung eines einzelnen Feldes (z.B. A3)
+ * @author 
+ *
+ */
 public class Feld {
 	
 	private FeldStatus status;
@@ -28,11 +33,20 @@ public class Feld {
 		return this.status;
 	}
 	
+	public boolean isHit(){
+		if(this.status == FeldStatus.schiff){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
 	/**
 	 * Mögliche Zustände für ein Feld
 	 */
 	public enum FeldStatus{
-			wasser("W"),
+			wasser("~"),
+			schiff("#"),
 			schiff_spieler1("1"),
 			schiff_spieler2("2");
 
