@@ -1,11 +1,59 @@
 package OOT;
 
+import OOT.Feld.FeldStatus;
+
 public class Test {
 
 	public static void main(String[] args){
-		Brett b = new Brett();
-		b.printBrett();
 		
-	}
-	
+		// test... es wird nur auf ebene1 (0) gespielt
+		
+		// Neues Spiel erstellen
+		Game g = new Game();
+		// Zwei Spieler erstellen
+		Spieler s1 = new Spieler("Spieler 1");
+		Spieler s2 = new Spieler ("Spieler 2");
+		// Spieler zum Spiel hinzufügen
+		g.addSpieler(s1);
+		g.addSpieler(s2);
+		
+		//s1 besetzt einige felder		
+		s1.schiffSetzen("E143");
+		s1.schiffSetzen("E144");
+		s1.schiffSetzen("E145");
+		
+		//s2 besetzt einige felder
+		s2.schiffSetzen("E178");
+		s2.schiffSetzen("E179");
+		
+		//Ebene1 (0) von S1 ausgeben
+		System.out.println(s1.getName() + " E1:");
+		s1.getEbenen().get(0).printBrett();
+		
+		//Ebene1 (0) von S2 ausgeben
+		System.out.println(s2.getName() + " E1:");
+		s2.getEbenen().get(0).printBrett();
+		
+		//s1 wird dreimal beschossen
+		s1.takeHit("E143"); // (treffer)
+		s1.takeHit("E144"); // (treffer)
+		s1.takeHit("E142"); // (kein treffer)
+		
+		//s2 wird zweimal beschossen 
+		s2.takeHit("E122"); // (treffer)
+		s2.takeHit("E178"); // (kein treffer)
+		
+		
+		//Erneut die bretter ausgeben
+		//Ebene1 (0) von S1 ausgeben
+		System.out.println(s1.getName() + " E1:");
+		s1.getEbenen().get(0).printBrett();
+				
+		//Ebene1 (0) von S2 ausgeben
+		System.out.println(s2.getName() + " E1:");
+		s2.getEbenen().get(0).printBrett();
+		
+		
+   }
+		
 }
