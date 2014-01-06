@@ -204,8 +204,13 @@ public class Main {
 	        		}else{        	
 	        			System.out.println("daneben");
 	        			System.out.println("Spieler 2 ist am Zug");
-	        			daneben = true;
 	        			ready();
+	        			Scanner ready = new Scanner(System.in);
+	        			System.out.println("Bereit? ");
+	        			System.out.println("Beliebige Taste drücken und mit Enter bestätigen");  
+	        			String bereit = ready.nextLine(); 
+	        			daneben = false;	        				
+	        			
 	        			
 	        		}
 				}
@@ -228,8 +233,14 @@ public class Main {
 	       			}else {
 	        			System.out.println("Daneben");
 	        			System.out.println("Spieler 1 am Zug:");
-	        			daneben = false;
+	        			
 	        			ready();
+	        			Scanner ready = new Scanner(System.in);
+	        			System.out.println("Bereit? ");
+	        			System.out.println("Beliebige Taste drücken und mit Enter bestätigen");  
+	        			String bereit = ready.nextLine(); 
+	        			daneben = false;	        				
+	        			
 	       			} 
 	        	}
     	
@@ -256,8 +267,13 @@ public class Main {
 	        		}else{        	
 	        			System.out.println("daneben");
 	        			System.out.println("Spieler 2 ist am Zug");
-	        			daneben = true;
 	        			ready();
+	        			Scanner ready = new Scanner(System.in);
+	        			System.out.println("Bereit? ");
+	        			System.out.println("Beliebige Taste drücken und mit Enter bestätigen");  
+	        			String bereit = ready.nextLine(); 
+	        			daneben = false;	        				
+	        			
 	        		}
 				}
 	        	while (daneben == true) {
@@ -278,8 +294,13 @@ public class Main {
 	       			}else if(!s2.takeHit(spieler1)) {
 	        			System.out.println("Daneben");
 	        			System.out.println("Spieler 1 am Zug:");
-	        			daneben = false;
 	        			ready();
+	        			Scanner ready = new Scanner(System.in);
+	        			System.out.println("Bereit? ");
+	        			System.out.println("Beliebige Taste drücken und mit Enter bestätigen");  
+	        			String bereit = ready.nextLine(); 
+	        			daneben = false;	        				
+	        			
 	       			} 
 	        	}
         }
@@ -292,14 +313,9 @@ public class Main {
 	 */
 	 public static void ready() throws InterruptedException{
 
-		 	System.out.println("Bereit? ");
-		 	System.out.println("j / n");
-		    Scanner eingabe = new Scanner(System.in);
-		    if(eingabe.equals("j")){
-		    	Thread.sleep(300);
-		    	for(int i = 0;i<30;i++){
-	            System.out.print("\n");    
-		    	}
-		    }
+		Thread.sleep(300);
+	   	for(int i = 0;i<50;i++){
+	   		System.out.print("\n");   
+	   	}	   
 	 }
 }
