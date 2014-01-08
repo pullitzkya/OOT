@@ -4,15 +4,17 @@ import java.util.Scanner;
 
 public class Main {
 	
+	public Game g = new Game();
+	
 	public static void main(String[] args) throws InterruptedException {
 
-		
-			makeMenu();
+			Main m = new Main();
+			m.makeMenu();
 		
 
 	}
 
-	public static void makeMenu() throws InterruptedException {
+	public void makeMenu() throws InterruptedException {
 	
 		int eingabe;
 		
@@ -157,76 +159,78 @@ public class Main {
 	
 	
 	
-	public static void starteSpiel() throws InterruptedException{
+	public void starteSpiel() throws InterruptedException{
 		
 		int beginner;
 		
-		// Neues Spiel erstellen
-        Game g = new Game();
+		//Namen für Spieler
+		System.out.println("Name für Spieler 1 eingeben:");
+		String s1name = readName();
+		System.out.println("Name für Spieler 2 eingeben:");
+		String s2name = readName();
+		
+        
         // Zwei Spieler erstellen
-        Spieler s1 = new Spieler("Spieler 1");
-        Spieler s2 = new Spieler("Spieler 2");
+        Spieler s1 = new Spieler(s1name);
+        Spieler s2 = new Spieler(s2name);
         // Spieler zum Spiel hinzufügen
-        g.addSpieler(s1);
-        g.addSpieler(s2);
+        this.g.addSpieler(s1);
+        this.g.addSpieler(s2);
         
         // Spieler 1
         // Schiffe für Ebene 1 setzen
         schiffSetzen(5, 1, s1);
-        schiffSetzen(4, 1, s1);
-        schiffSetzen(3, 1, s1);
-        schiffSetzen(2, 1, s1);
-        // Schiffe für Ebene 2 setzen
-        schiffSetzen(3, 2, s1);
-        schiffSetzen(3, 2, s1);
-        schiffSetzen(3, 2, s1);
-        schiffSetzen(3, 2, s1);
-        // Schiffe für Ebene 3 setzen
-        schiffSetzen(3, 3, s1);
-        schiffSetzen(3, 3, s1);
-        schiffSetzen(3, 3, s1);
-        schiffSetzen(3, 3, s1);
+//        schiffSetzen(4, 1, s1);
+//        schiffSetzen(3, 1, s1);
+//        schiffSetzen(2, 1, s1);
+//        // Schiffe für Ebene 2 setzen
+//        schiffSetzen(3, 2, s1);
+//        schiffSetzen(3, 2, s1);
+//        schiffSetzen(3, 2, s1);
+//        schiffSetzen(3, 2, s1);
+//        // Schiffe für Ebene 3 setzen
+//        schiffSetzen(3, 3, s1);
+//        schiffSetzen(3, 3, s1);
+//        schiffSetzen(3, 3, s1);
+//        schiffSetzen(3, 3, s1);
         
         // Spieler 2
         // Schiffe für Ebene 1 setzen
         schiffSetzen(5, 1, s2);
-        schiffSetzen(4, 1, s2);
-        schiffSetzen(3, 1, s2);
-        schiffSetzen(2, 1, s2);
-        // Schiffe für Ebene 2 setzen
-        schiffSetzen(3, 2, s2);
-        schiffSetzen(3, 2, s2);
-        schiffSetzen(3, 2, s2);
-        schiffSetzen(3, 2, s2);
-        // Schiffe für Ebene 3 setzen
-        schiffSetzen(3, 3, s2);
-        schiffSetzen(3, 3, s2);
-        schiffSetzen(3, 3, s2);
-        schiffSetzen(3, 3, s2);
+//        schiffSetzen(4, 1, s2);
+//        schiffSetzen(3, 1, s2);
+//        schiffSetzen(2, 1, s2);
+//        // Schiffe für Ebene 2 setzen
+//        schiffSetzen(3, 2, s2);
+//        schiffSetzen(3, 2, s2);
+//        schiffSetzen(3, 2, s2);
+//        schiffSetzen(3, 2, s2);
+//        // Schiffe für Ebene 3 setzen
+//        schiffSetzen(3, 3, s2);
+//        schiffSetzen(3, 3, s2);
+//        schiffSetzen(3, 3, s2);
+//        schiffSetzen(3, 3, s2);
  
         // Abfrage wer beginnt 
         System.out.println("1 = Spieler 1 beginnt, 2 = Spieler 2 beginnt");
         Scanner test = new Scanner(System.in);
         beginner = test.nextInt();
-        while(g.isRunning()){
+        while(this.g.isRunning()){
         if(beginner == 1) {
         	
         	boolean daneben = false;
         		while (daneben == false){
         			s1.printBoard();
-        			System.out.println("Gebe Koordinaten an");
-        			Scanner feld = new Scanner(System.in);
-        			String spieler1 = feld.nextLine();
-        			// Prüft ob Eingabe Valid ist
-	        		g.isValidFormat(spieler1);
+        			String koordinate = readSchussKoordinate(s2);
+    
 	        		// Prüft ob ein schiff getroffen wurde
-	        		if(s2.takeHit(spieler1)){
+	        		if(s2.takeHit(koordinate)){
 	        			System.out.println("treffer");  
 	        			  daneben = false;
-	        			  g.isRunning();
-	        			  if(g.isRunning() == false){
-	        				  System.out.println("Spiel beendet. Alle Schiffe von Spieler 2 wurden versenkt");
-	        			  	  System.out.println("Sieger ist : " + g.whoWon());
+	        			  this.g.isRunning();
+	        			  if(this.g.isRunning() == false){
+	        				  System.out.println("Spiel beendet. Alle Schiffe von " + s2.getName() + "  wurden versenkt");
+	        			  	  System.out.println("Sieger ist:" + s1.getName() + "/" + this.g.whoWon());
 	        				  System.exit(0);
 	        			   }
 	        		}else{        	
@@ -244,19 +248,17 @@ public class Main {
 				}
 	        	while (daneben == true) {
 	        		
-	        		System.out.println("Gebe Koordinaten an");
 	        		s2.printBoard();
-	        		Scanner feld = new Scanner(System.in);
-	        		String spieler2 = feld.nextLine();
-	        		g.isValidFormat(spieler2);
-	        		if(s1.takeHit(spieler2)){
+	        		String koordinate = readSchussKoordinate(s1);
+	        		
+	        		if(s1.takeHit(koordinate)){
 	       				System.out.println("Treffer");
 	       				daneben = true;
-	       				g.isRunning();
-	        			if(g.isRunning() == false){
-	        			  System.out.println("Spiel beendet. Alle Schiffe von Spieler 2 wurden versenkt");
-	        			  System.out.println("Sieger ist : " + g.whoWon());
-	        			  System.exit(0);
+	       				this.g.isRunning();
+	        			if(this.g.isRunning() == false){
+	        				System.out.println("Spiel beendet. Alle Schiffe von " + s1.getName() + "  wurden versenkt");
+	        				System.out.println("Sieger ist:" + s2.getName() + "/" + this.g.whoWon());
+	        				System.exit(0);
 	        		    }
 	       			}else {
 	        			System.out.println("Daneben");
@@ -277,20 +279,16 @@ public class Main {
         		boolean daneben = false;
         		while (daneben == false){
         			s2.printBoard();
-        			System.out.println("Gebe Koordinaten an");
-        			Scanner feld = new Scanner(System.in);
-        			String spieler2 = feld.nextLine();
-        			// Prüft ob Eingabe Valid ist
-	        		g.isValidFormat(spieler2);
+        			String koordinate = readSchussKoordinate(s1);
 	        		// Prüft ob ein schiff getroffen wurde
-	        		if(s1.takeHit(spieler2)){
+	        		if(s1.takeHit(koordinate)){
 	        			System.out.println("treffer");  
 	        			daneben = false;
-	        			g.isRunning();
-	        			if(g.isRunning() == false){
-	        			  System.out.println("Spiel beendet. Alle Schiffe von Spieler 2 wurden versenkt");
-	        			  System.out.println("Sieger ist : " + g.whoWon());
-	        			  System.exit(0);
+	        			this.g.isRunning();
+	        			if(this.g.isRunning() == false){
+	        				System.out.println("Spiel beendet. Alle Schiffe von " + s1.getName() + "  wurden versenkt");
+	        			    System.out.println("Sieger ist:" + s2.getName() + "/" + this.g.whoWon());
+	        			    System.exit(0);
 	        		    }
 	        		}else{        	
 	        			System.out.println("daneben");
@@ -307,19 +305,17 @@ public class Main {
 	        	while (daneben == true) {
 	        		
 	        		s1.printBoard();
-	        		Scanner feld = new Scanner(System.in);
-	        		String spieler1 = feld.nextLine();
-	        		g.isValidFormat(spieler1);
-	        		if(s2.takeHit(spieler1)){
+	        		String koordinate = readSchussKoordinate(s2);
+	        		if(s2.takeHit(koordinate)){
 	       				System.out.println("Treffer");
 	       				daneben = true;
-	       				g.isRunning();
-	        			if(g.isRunning() == false){
-	        			  System.out.println("Spiel beendet. Alle Schiffe von Spieler 2 wurden versenkt");
-	        			  System.out.println("Sieger ist : " + g.whoWon());
-	        			  System.exit(0);
+	       				this.g.isRunning();
+	        			if(this.g.isRunning() == false){
+	        				System.out.println("Spiel beendet. Alle Schiffe von " + s2.getName() + "  wurden versenkt");
+	        			  	  System.out.println("Sieger ist:" + s1.getName() + "/" + this.g.whoWon());
+	        				  System.exit(0);
 	        		    }
-	       			}else if(!s2.takeHit(spieler1)) {
+	       			}else{
 	        			System.out.println("Daneben");
 	        			System.out.println("Spieler 1 am Zug:");
 	        			ready();
@@ -359,11 +355,43 @@ public class Main {
 				 if(spieler.schiffSetzen(start, ende, ebene, size) == true) {
 					 
 				 }else { 
-					 System.out.println("Eingabe war Fehlerhast. Bitte nochmal versuchen");
+					 System.out.println("Geforderte Länge oder Ebene war fehlerhaft! Bitte erneut eingeben:");
 					 spieler.printBoard();
 					 schiffSetzen(size, ebene, spieler);
 				 }
 		
 	 }
+	 
+	 public String readKoordinate(){
+		 System.out.println("Bitte Koordinaten eingeben");
+		 Scanner eingabe = new Scanner(System.in);
+		 String koordinaten = eingabe.nextLine();
+		 
+		 if(this.g.isValidFormat(koordinaten)){
+			 return koordinaten;
+		 }else{
+			 System.out.println("Eingabe der Koordinaten war fehlerhaft!");
+			 return readKoordinate();
+		 }		 		 
+	 }
+	 
+	 public String readSchussKoordinate(Spieler s){
+		String koordinate = readKoordinate();
+		if(s.isValidSchuss(koordinate)){
+			return koordinate;
+		}else{
+			System.out.println("Auf dieses Feld wurde bereits geschossen!");
+			return readSchussKoordinate(s);
+		}
+	 }
+	 
+	 public String readName() {
+		 System.out.println("Namen eingeben:");
+		 Scanner eingabe = new Scanner(System.in);
+		 String name = eingabe.nextLine();
+		 return name;
+	 }
+	 
+	 
 	}
 
