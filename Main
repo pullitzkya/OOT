@@ -169,17 +169,45 @@ public class Main {
         // Spieler zum Spiel hinzufügen
         g.addSpieler(s1);
         g.addSpieler(s2);
-        //s1 besetzt einige felder 
-        s1.schiffSetzen("E143"); 
-        s1.schiffSetzen("E144"); 
-        s1.schiffSetzen("E145"); 
-        //s2 besetzt einige felder 
-        s2.schiffSetzen("E278"); 
-        s2.schiffSetzen("E179");
+        
+        // Spieler 1
+        // Schiffe für Ebene 1 setzen
+        schiffSetzen(5, 1, s1);
+        schiffSetzen(4, 1, s1);
+        schiffSetzen(3, 1, s1);
+        schiffSetzen(2, 1, s1);
+        // Schiffe für Ebene 2 setzen
+        schiffSetzen(3, 2, s1);
+        schiffSetzen(3, 2, s1);
+        schiffSetzen(3, 2, s1);
+        schiffSetzen(3, 2, s1);
+        // Schiffe für Ebene 3 setzen
+        schiffSetzen(3, 3, s1);
+        schiffSetzen(3, 3, s1);
+        schiffSetzen(3, 3, s1);
+        schiffSetzen(3, 3, s1);
+        
+        // Spieler 2
+        // Schiffe für Ebene 1 setzen
+        schiffSetzen(5, 1, s2);
+        schiffSetzen(4, 1, s2);
+        schiffSetzen(3, 1, s2);
+        schiffSetzen(2, 1, s2);
+        // Schiffe für Ebene 2 setzen
+        schiffSetzen(3, 2, s2);
+        schiffSetzen(3, 2, s2);
+        schiffSetzen(3, 2, s2);
+        schiffSetzen(3, 2, s2);
+        // Schiffe für Ebene 3 setzen
+        schiffSetzen(3, 3, s2);
+        schiffSetzen(3, 3, s2);
+        schiffSetzen(3, 3, s2);
+        schiffSetzen(3, 3, s2);
+ 
         // Abfrage wer beginnt 
         System.out.println("1 = Spieler 1 beginnt, 2 = Spieler 2 beginnt");
-        Scanner eingabe = new Scanner(System.in);
-        beginner = eingabe.nextInt();
+        Scanner test = new Scanner(System.in);
+        beginner = test.nextInt();
         while(g.isRunning()){
         if(beginner == 1) {
         	
@@ -190,7 +218,7 @@ public class Main {
         			Scanner feld = new Scanner(System.in);
         			String spieler1 = feld.nextLine();
         			// Prüft ob Eingabe Valid ist
-	        		g.isValid(spieler1);
+	        		g.isValidFormat(spieler1);
 	        		// Prüft ob ein schiff getroffen wurde
 	        		if(s2.takeHit(spieler1)){
 	        			System.out.println("treffer");  
@@ -209,7 +237,7 @@ public class Main {
 	        			System.out.println("Bereit? ");
 	        			System.out.println("Beliebige Taste drücken und mit Enter bestätigen");  
 	        			String bereit = ready.nextLine(); 
-	        			daneben = false;	        				
+	        			daneben = true;	        				
 	        			
 	        			
 	        		}
@@ -220,7 +248,7 @@ public class Main {
 	        		s2.printBoard();
 	        		Scanner feld = new Scanner(System.in);
 	        		String spieler2 = feld.nextLine();
-	        		g.isValid(spieler2);
+	        		g.isValidFormat(spieler2);
 	        		if(s1.takeHit(spieler2)){
 	       				System.out.println("Treffer");
 	       				daneben = true;
@@ -253,7 +281,7 @@ public class Main {
         			Scanner feld = new Scanner(System.in);
         			String spieler2 = feld.nextLine();
         			// Prüft ob Eingabe Valid ist
-	        		g.isValid(spieler2);
+	        		g.isValidFormat(spieler2);
 	        		// Prüft ob ein schiff getroffen wurde
 	        		if(s1.takeHit(spieler2)){
 	        			System.out.println("treffer");  
@@ -281,7 +309,7 @@ public class Main {
 	        		s1.printBoard();
 	        		Scanner feld = new Scanner(System.in);
 	        		String spieler1 = feld.nextLine();
-	        		g.isValid(spieler1);
+	        		g.isValidFormat(spieler1);
 	        		if(s2.takeHit(spieler1)){
 	       				System.out.println("Treffer");
 	       				daneben = true;
@@ -303,10 +331,11 @@ public class Main {
 	        			
 	       			} 
 	        	}
+        	}
         }
-        }
+      
 	}
-	
+
 	/** Spielerwechsel mit Abfrage ob Bereit
 	 * 
 	 * @throws InterruptedException
@@ -318,4 +347,23 @@ public class Main {
 	   		System.out.print("\n");   
 	   	}	   
 	 }
-}
+	 public static void schiffSetzen(int size, int ebene, Spieler spieler) {
+		 
+				 System.out.println(spieler.getName() + " bitte setze ein " + size +"er Schiff auf Ebene " + ebene);
+				 System.out.println("Startkoordinaten:");
+				 Scanner eingabe = new Scanner(System.in);
+				 String start = eingabe.nextLine();
+		 		 System.out.println("Endkoordinaten:");
+				 String ende = eingabe.nextLine();
+				 
+				 if(spieler.schiffSetzen(start, ende, ebene, size) == true) {
+					 
+				 }else { 
+					 System.out.println("Eingabe war Fehlerhast. Bitte nochmal versuchen");
+					 spieler.printBoard();
+					 schiffSetzen(size, ebene, spieler);
+				 }
+		
+	 }
+	}
+
