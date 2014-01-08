@@ -42,13 +42,12 @@ public class Feld {
 	}
 	
 	/**
-	 * Mögliche Zustände für ein Feld
+	 * MÃ¶gliche ZustÃ¤nde fÃ¼r ein Feld
 	 */
 	public enum FeldStatus{
 			wasser("~"),
 			schiff("#"),
-			schiff_spieler1("1"),
-			schiff_spieler2("2");
+			deadschiff("!");
 
 		private final String print;
 
