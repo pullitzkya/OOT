@@ -1,6 +1,7 @@
 package OOT;
 
 import OOT.Feld.FeldStatus;
+
 import java.util.LinkedList;
 
 public class Game {
@@ -8,11 +9,11 @@ public class Game {
 	public LinkedList<Spieler> spieler = new LinkedList<Spieler>();
 	
 	/**
-	 * Prüft ob ein Eingabestring valid ist
+	 * PrÃ¼ft ob ein Eingabestring valid ist
 	 * @param input	Eingabe
 	 * @return	true/false
 	 */
-	public static boolean isValid(String input){
+	public static boolean isValidFormat(String input){
 		if(input.matches("E[123]\\d\\d")){
 			return true;
 		}else{
@@ -22,32 +23,87 @@ public class Game {
 	
 	
 	public static void main(String[] args){
-		System.out.println(isValid("E322"));
+		System.out.println(isValidFormat("E322"));
 	}
 	
 	/**
-	 * Überprüft ob das Spiel noch läuft
+	 * ÃœberprÃ¼ft ob das Spiel noch lÃ¤uft
 	 * @return true/falses
 	 */
 	public boolean isRunning(){		
-		for(Spieler s : this.spieler){
-			for(Brett b : s.getEbenen()){
-				for(Feld f : b.getFelder()){
-					if(f.getFeldStatus() == FeldStatus.schiff){
-						return true;
-					}
-				}
-			}
-		}
-		return false;
+		         
+        boolean gameOver = false;
+        
+        for(Spieler s : this.spieler){
+        	
+        	boolean foundSchiff = false;
+        	
+	        for(Brett b : s.getEbenen()){
+	        	for(Feld f : b.getFelder()){
+	        		if(f.getFeldStatus() == FeldStatus.schiff){
+	        			foundSchiff = true;
+	        		}
+	        	}
+	        }
+	        
+	        if(!foundSchiff){ // Falls kein Schiff gefunden, gameOver=true
+	        	gameOver = true; 
+	        }
+	        
+        }
+             
+        return !gameOver;
 	}
 	
 	/**
-	 * Fügt einen Spieler zum Spiel hinzu
-	 * @param s	Spieler
+	 * Ermittelt wer gewonnen hat
+	 * @return	1=Spieler1, -1=Spieler2, 0=Unentschieden
 	 */
-	public void addSpieler(Spieler s){
-		this.spieler.add(s);
+	public int whoWon(){
+		int winner = 0;
+		
+		// Bretter von Spieler 1 Ã¼berprÃ¼fen
+	    for(Brett b : this.spieler.get(0).getEbenen()){
+	        	for(Feld f : b.getFelder()){
+	        		if(f.getFeldStatus() == FeldStatus.schiff){
+	        			winner = 1;
+	        		}
+	        	}
+	    }
+	    
+		// Bretter von Spieler 2 Ã¼berprÃ¼fen
+	    for(Brett b : this.spieler.get(1).getEbenen()){
+	        	for(Feld f : b.getFelder()){
+	        		if(f.getFeldStatus() == FeldStatus.schiff){
+	        			winner = -1;
+	        		}
+	        	}
+	    }
+		
+	    return winner;
+		
+	}
+	
+	/**
+	 * FÃ¼gt einen Spieler zum Spiel hinzu
+	 * @param s	Spieler
+	 * @return true=Spieler wurde hinzugefÃ¼gt, false=Spieler wurde nicht hinzugefÃ¼gt
+	 */
+	public boolean addSpieler(Spieler s){
+		if(this.spieler.size() < 2){
+			this.spieler.add(s);
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	/** 
+	 * Liefert Liste mit den Spielern
+	 * @return Liste der Spieler
+	 */
+	public LinkedList<Spieler> getSpieler(){
+		return this.spieler;
 	}
 	
 	
