@@ -7,19 +7,33 @@ import OOT.Feld.FeldStatus;
 public class Spieler {
 	
 	private LinkedList<Brett> ebenen = new LinkedList<Brett>();
+	private LinkedList<String> schusse = new LinkedList<String>();
 	private String name;
 	
 	public Spieler(String n){
 		// 3 Bretter erstellen
-		this.ebenen.add(new Brett());
-		this.ebenen.add(new Brett());
-		this.ebenen.add(new Brett());
+		this.ebenen.add(new Brett()); // Ebene 1 
+		this.ebenen.add(new Brett()); // Ebene 2
+		this.ebenen.add(new Brett()); // Ebene 3
 		
 		this.name = n;
 	}
 	
 	/**
-	 * Nimmt einen Schuss entgegen, überprüft ob es ein Treffer war und versenkt ggf.	
+	 * Überprüft ob Schuss valid (noch nicht gemacht) wurde
+	 * @param eingabe	Schusskoordinaten
+	 * @return	true/false
+	 */
+	public boolean isValidSchuss(String eingabe){
+		if(this.schusse.contains(eingabe)){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	/**
+	 * Nimmt einen Schuss entgegen, Ã¼berprÃ¼ft ob es ein Treffer war und versenkt ggf.	
 	 * @param input	Koordinaten
 	 * @return	true=Treffer, false=Kein Treffer
 	 */
@@ -27,6 +41,26 @@ public class Spieler {
 		return this.ebenen.get(calcEbene(input)).takeHit(calcFeld(input));
 	}
 	
+
+	/**
+	 * Position auf der X-Achse
+	 * @param input	Eingabe
+	 * @return	Position auf der X-Achse (0-9=
+	 */
+	public int calcXaxis(String input) {		
+		return Character.getNumericValue(input.charAt(3));		
+	}
+	
+	/**
+	 * Position auf der Y-Achse
+	 * @param input	Eingabe
+	 * @return	Position auf der Y-Achse (0-9)
+	 */
+	public int calcYaxis(String input) {		
+		return Character.getNumericValue(input.charAt(2));		
+	}
+	
+
 	/**
 	 * Parsed FeldNr (0-99) aus dem Eingabestring
 	 * @param input	Eingabe
@@ -56,14 +90,139 @@ public class Spieler {
 		return this.name;
 	}
 	
-	public void schiffSetzen(String input){
-		this.getEbenen().get(calcEbene(input)).setFeld(calcFeld(input), FeldStatus.schiff);
+	
+	/**
+	 * Platziert ein Schiff
+	 * @param start	Staartpoistion
+	 * @param end	Endposition
+	 * @param ebene	Erwartete Ebene
+	 * @param size	Erwartete Größe
+	 * @return	true/false
+	 */
+	public boolean schiffSetzen(String start, String end, int ebene, int size){
+		
+		LinkedList<String> testMoves = new LinkedList<String>();
+		size = size -1;
+		int distance = 0;
+		ebene = ebene-1;
+		
+		if((calcEbene(start) != ebene) || (calcEbene(end) != ebene)){
+			return false; // Start oder Ziel ist nicht in der gewünschten Ebene
+		}
+		
+		if(calcXaxis(start) != calcXaxis(end)){ // schiff wird uaf x achse gesetzt
+			
+			if(calcXaxis(start) > calcXaxis(end)){	// Fals Start < End, vertauschen
+				String temp = start;
+				start = end;
+				end = temp;
+			}
+			
+			distance = java.lang.Math.abs(calcXaxis(start)-calcXaxis(end)) ;
+			if(distance != size){
+				return false; // Schiff entspricht nicht der gewünschen Größe
+			}else{
+				// setzen auf x achse
+				
+				testMoves.add(start);
+				String move = "";
+				while(distance != 0){
+					move = "E" + (ebene+1) + calcYaxis(start) + (calcXaxis(start)+distance);
+					testMoves.add(move);
+					distance--;
+				}
+			}
+		}
+		
+		if(calcYaxis(start) != calcYaxis(end)){ // schiff wird auf y achse gesetzt	
+			
+			if(calcYaxis(start) > calcYaxis(end)){	// Fals Start < End, vertauschen
+				String temp = start;
+				start = end;
+				end = temp;
+			}
+			
+			distance = java.lang.Math.abs(calcYaxis(start)-calcYaxis(end)) ;
+			if(distance != size){
+				return false; // Schiff entspricht nicht der gewünschen Größe
+			}else{
+				// setzen auf y-achse
+				
+				testMoves.add(start);
+				String move = "";
+				while(distance != 0){
+					move = "E" + (ebene+1) + (calcYaxis(start)+distance) + (calcXaxis(start));
+					testMoves.add(move);
+					distance--;
+				}
+				System.out.println(testMoves);
+			}
+		}
+	
+		for(String m : testMoves){
+			if(this.getEbenen().get(ebene).getFelder().get(calcFeld(m)).getFeldStatus() == FeldStatus.schiff){
+				return false; // Eines der Felder ist bereits mit einem Schiff belegt!
+			}		
+		}
+		
+		for(String m : testMoves){
+			this.getEbenen().get(ebene).getFelder().get(calcFeld(m)).setFeldStatus(FeldStatus.schiff); // Schiffe setzen
+		}
+		
+
+		return true;
 	}
 	
 	
+	/**
+	 * Liefert die Ebenen (Bretter) eines Spielers
+	 * @return Ebenen (Bretter) eines Spielers
+	 */
 	public LinkedList<Brett> getEbenen(){
 		return this.ebenen;
 	}
+	
+	/**
+	 * Gibt die Ebenen eines Spielers auf der Konsole aus
+	 */
+	public void printBoard(){
+		System.out.println(this.name); 
+		System.out.println("E1                     E2                     E3");
+		System.out.println("---------------------  ---------------------  ---------------------");
+		
+		for(int i = 0; i<100; i++){
+
+			if((i==0) || ((i%10)==0)){
+				
+				for(int j = i; j < i+10; j++){
+					System.out.print("|" + this.ebenen.get(0).getFeldStatus(j).toString());	
+				}
+				
+				System.out.print("|  ");
+				for(int j = i; j < i+10; j++){
+					System.out.print("|" + this.ebenen.get(1).getFeldStatus(j).toString());	
+				}
+				
+				System.out.print("|  ");
+				for(int j = i; j < i+10; j++){
+					System.out.print("|" + this.ebenen.get(2).getFeldStatus(j).toString());				
+				}
+				
+				System.out.print("| ");
+
+				System.out.println();
+				
+			}
+			
+			
+		}
+		
+		System.out.println("---------------------  ---------------------  ---------------------");
+		
+	}
+	
+	
+
 	
 	
 }
