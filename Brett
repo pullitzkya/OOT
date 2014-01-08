@@ -28,7 +28,7 @@ public class Brett {
 	}
 	
 	/**
-	 * Setzt einen neuen Status für ein FEld
+	 * Setzt einen neuen Status fÃ¼r ein Feld
 	 * @param fNr	Nummer des Feldes
 	 * @param fs	Status
 	 */
@@ -36,15 +36,27 @@ public class Brett {
 		this.felder.get(fNr).setFeldStatus(fStatus);
 	}
 	
+	/**
+	 * ÃœberprÃ¼ft ob ein Schuss ein Treffer ist
+	 * @param fNr	FeldNr	 
+	 * @return	true/false
+	 */
+	public boolean isHit(int fNr){
+		if(this.felder.get(fNr).getFeldStatus() == FeldStatus.schiff){
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 	/**
-	 * Nimmt einen Schuss entgegen, überprüft ob es ein Treffer war und versenkt ggf.	
+	 * Nimmt einen Schuss entgegen, Ã¼berprÃ¼ft ob es ein Treffer war und versenkt ggf.	
 	 * @param input	Koordinaten
 	 * @return	true=Treffer, false=Kein Treffer
 	 */
 	public boolean takeHit(int fNr){
-		if(this.felder.get(fNr).getFeldStatus() == FeldStatus.schiff){
-			this.felder.get(fNr).setFeldStatus(FeldStatus.wasser);
+		if(isHit(fNr)){
+			this.felder.get(fNr).setFeldStatus(FeldStatus.deadschiff);
 			return true;
 		}else{
 			return false;
@@ -60,28 +72,7 @@ public class Brett {
 		return this.felder;
 	}
 	
-	
-	/**
-	 * Ausgabe von Brett auf Konsole
-	 */
-	public void printBrett(){		
-		System.out.println("---------------------");
-		
-		int current = 0;
-		
-		for(int i = 0; i<100; i++){
-			
-			System.out.print("|" + this.felder.get(current).getFeldStatus().toString());
 
-			current++;
-			if(current%10==0){
-				System.out.print("|\n");
-			}
-	
-		}
-		
-		System.out.println("---------------------");		
-	}
 	
 	
 }
