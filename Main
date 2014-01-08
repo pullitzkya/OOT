@@ -2,9 +2,12 @@ package OOT;
 
 import java.util.Scanner;
 
+import OOT.Ki.Difficulty;
+
 public class Main {
 	
 	public Game g = new Game();
+	
 	
 	public static void main(String[] args) throws InterruptedException {
 
@@ -35,7 +38,7 @@ public class Main {
 				eingabe = scanner.nextInt();
 				switch (eingabe) {
 				case 1:  // 1. Spieler vs Spieler
-					starteSpiel();
+					starteSpiel(false, false);
 					break;
 				case 2: // 2. Spieler vs Computer
 					System.out.println("1. Spieler beginnt");
@@ -50,15 +53,15 @@ public class Main {
 						switch(eingabe){
 						case 1: // Einfach
 							System.out.println("EASYYYYYYYYYYYYYYYYY");
-							starteSpiel();
+							starteSpiel(false, true);
 							break;
 						case 2: // Normal
 							System.out.println("Normallllll");
-							starteSpiel();
+							starteSpiel(false, true);
 							break;
 						case 3:  // Schwer
 							System.out.println("UFPASSSE");
-							starteSpiel();
+							starteSpiel(false, true);
 							break;
 						default:
 							break;
@@ -72,15 +75,15 @@ public class Main {
 						switch(eingabe){
 						case 1: // Einfach
 							System.out.println("EASYYYYYYYYYYYYYYYYY");
-							starteSpiel();
+							starteSpiel(false, true);
 							break;
 						case 2: // Normal
 							System.out.println("Normallllll");
-							starteSpiel();
+							starteSpiel(false, true);
 							break;
 						case 3:  // Schwer
 							System.out.println("UFPASSSE");
-							starteSpiel();
+							starteSpiel(false, true);
 							break;
 						default:
 							break;
@@ -100,15 +103,15 @@ public class Main {
 						switch(eingabe){
 						case 1: // KI Easy
 							System.out.println("EASYY");
-							starteSpiel();
+							starteSpiel(true, true);
 							break;
 						case 2: // KI Normal
 							System.out.println("Normal");
-							starteSpiel();
+							starteSpiel(true, true);
 							break;
 						case 3: // KI Schwer
 							System.out.println("Hardddd");
-							starteSpiel();
+							starteSpiel(true, true);
 							break;
 						default:
 							break;
@@ -122,15 +125,15 @@ public class Main {
 						switch(eingabe){
 						case 1: // KI Easy
 							System.out.println("EASYY");
-							starteSpiel();
+							starteSpiel(true, true);
 							break;
 						case 2: // KI Normal
 							System.out.println("Normal");
-							starteSpiel();
+							starteSpiel(true, true);
 							break;
 						case 3: // KI Schwer
 							System.out.println("Hardddd");
-							starteSpiel();
+							starteSpiel(true, true);
 							break;
 						default:
 							break;
@@ -159,7 +162,11 @@ public class Main {
 	
 	
 	
-	public void starteSpiel() throws InterruptedException{
+	public void starteSpiel(boolean ki1, boolean ki2) throws InterruptedException{
+		
+		Ki k1 = new Ki(Difficulty.leicht);
+		Ki k2 = new Ki(Difficulty.leicht);
+		
 		
 		int beginner;
 		
@@ -221,7 +228,14 @@ public class Main {
         	boolean daneben = false;
         		while (daneben == false){
         			s1.printBoard();
-        			String koordinate = readSchussKoordinate(s2);
+        			
+        			String koordinate = "";
+        			if(ki1){
+        				koordinate =  k1.calcMove();
+        			}else{
+        				koordinate = readSchussKoordinate(s2);
+        			}
+        			
     
 	        		// Prüft ob ein schiff getroffen wurde
 	        		if(s2.takeHit(koordinate)){
@@ -249,7 +263,12 @@ public class Main {
 	        	while (daneben == true) {
 	        		
 	        		s2.printBoard();
-	        		String koordinate = readSchussKoordinate(s1);
+	        		String koordinate = "";
+        			if(ki2){
+        				koordinate =  k2.calcMove();
+        			}else{
+        				koordinate = readSchussKoordinate(s1);
+        			}
 	        		
 	        		if(s1.takeHit(koordinate)){
 	       				System.out.println("Treffer");
@@ -279,7 +298,15 @@ public class Main {
         		boolean daneben = false;
         		while (daneben == false){
         			s2.printBoard();
-        			String koordinate = readSchussKoordinate(s1);
+        			String koordinate = "";
+        			if(ki2){
+        				koordinate =  k2.calcMove();
+        			}else{
+        				koordinate = readSchussKoordinate(s1);
+        			}
+        			
+        			
+        			
 	        		// Prüft ob ein schiff getroffen wurde
 	        		if(s1.takeHit(koordinate)){
 	        			System.out.println("treffer");  
@@ -298,14 +325,22 @@ public class Main {
 	        			System.out.println("Bereit? ");
 	        			System.out.println("Beliebige Taste drücken und mit Enter bestätigen");  
 	        			String bereit = ready.nextLine(); 
-	        			daneben = false;	        				
+	        			daneben = true;	        				
 	        			
 	        		}
 				}
 	        	while (daneben == true) {
 	        		
 	        		s1.printBoard();
-	        		String koordinate = readSchussKoordinate(s2);
+	        		
+	        		String koordinate = "";
+        			if(ki1){
+        				koordinate =  k1.calcMove();
+        			}else{
+        				koordinate = readSchussKoordinate(s2);
+        			}
+	        		
+	        		
 	        		if(s2.takeHit(koordinate)){
 	       				System.out.println("Treffer");
 	       				daneben = true;
@@ -343,20 +378,20 @@ public class Main {
 	   		System.out.print("\n");   
 	   	}	   
 	 }
-	 public static void schiffSetzen(int size, int ebene, Spieler spieler) {
+	 
+	 public  void schiffSetzen(int size, int ebene, Spieler spieler) {
 		 
 				 System.out.println(spieler.getName() + " bitte setze ein " + size +"er Schiff auf Ebene " + ebene);
-				 System.out.println("Startkoordinaten:");
-				 Scanner eingabe = new Scanner(System.in);
-				 String start = eingabe.nextLine();
-		 		 System.out.println("Endkoordinaten:");
-				 String ende = eingabe.nextLine();
+				 System.out.println("Startkoordinaten eingeben!");
+				
+				 String start = readKoordinate();
+		 		 System.out.println("Endkoordinaten eingeben!");
+				 String ende = readKoordinate();
 				 
-				 if(spieler.schiffSetzen(start, ende, ebene, size) == true) {
+				 if(spieler.schiffSetzen(start, ende, ebene, size)) {
 					 
 				 }else { 
-					 System.out.println("Geforderte Länge oder Ebene war fehlerhaft! Bitte erneut eingeben:");
-					 spieler.printBoard();
+					 System.out.println("Geforderte Länge oder Ebene war fehlerhaft! Bitte erneut eingeben:");					
 					 schiffSetzen(size, ebene, spieler);
 				 }
 		
